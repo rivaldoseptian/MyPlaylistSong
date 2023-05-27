@@ -9,4 +9,5 @@ import (
 func AuthRouter(r *fiber.App) {
 	adminRouter := r.Group("/admin")
 	adminRouter.Post("/register", controllers.RegisterAdmin)
+	adminRouter.Post("/login", controllers.LoginUser)
 }

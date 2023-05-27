@@ -37,5 +37,33 @@ func RegisterAdmin(c *fiber.Ctx) error {
 		return helpers.Response(c, 500, err.Error(), nil)
 	}
 
-	return helpers.Response(c, 201, "Success", user)
+	return helpers.Response(c, 201, "Success Register Admin", nil)
+}
+
+func LoginUser(c *fiber.Ctx) error {
+	login := new(models.User)
+	if err := c.BodyParser(login); err != nil {
+		return err
+	}
+	error := helpers.ValidateStruct(c, *login)
+	if error != nil {
+		return helpers.Response(c, 400, error, nil)
+	}
+
+	var user models.User
+
+	if err := config.DB.First(&user, "email= ?", login.Email).Error; err != nil {
+		return helpers.Response(c, 400, "Invalid Email/Password", nil)
+	}
+
+	if err := helpers.VerifyPassword(user.Password, login.Password); err != nil {
+		return helpers.Response(c, 400, "Invalid Email/Password", nil)
+	}
+
+	token, err := helpers.CreateToken(&user)
+	if err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+
+	return helpers.Response(c, 200, "Succes Login", token)
 }
