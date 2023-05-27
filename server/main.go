@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"server/config"
+	"server/routes"
 
 	"github.com/gofiber/fiber/v2"
 )

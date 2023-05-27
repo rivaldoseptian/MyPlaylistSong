@@ -13,13 +13,13 @@ type User struct {
 }
 
 type Register struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" validate:"required,email,min=6,max=32"`
+	Password string `json:"password" validate:"required"`
 	Role     string `json:"role"`
 }
 
 type Login struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }
