@@ -56,3 +56,35 @@ func GetOneSong(c *fiber.Ctx) error {
 	return helpers.Response(c, 200, "Succces", songResponse)
 
 }
+
+func EditSong(c *fiber.Ctx) error {
+	songId := c.Params("id")
+	var song models.Song
+
+	songRequest := new(models.SongRequest)
+
+	if err := c.BodyParser(songRequest); err != nil {
+		return err
+	}
+
+	error := helpers.ValidateStruct(c, *songRequest)
+	if error != nil {
+		return helpers.Response(c, 404, error, nil)
+	}
+
+	if err := config.DB.First(&song, "id= ?", songId).Error; err != nil {
+		return helpers.Response(c, 404, "Song Not Found", nil)
+	}
+
+	song = models.Song{
+		Name:     songRequest.Name,
+		Duration: songRequest.Duration,
+		ArtisID:  songRequest.ArtisID,
+	}
+
+	if err := config.DB.Where("id= ?", songId).Updates(&song).Error; err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+
+	return helpers.Response(c, 200, "Succes Edit Song", nil)
+}
