@@ -78,3 +78,18 @@ func EditArtis(c *fiber.Ctx) error {
 
 	return helpers.Response(c, 200, "Succes Edit Artis", nil)
 }
+
+func DeleteArtis(c *fiber.Ctx) error {
+	artisId := c.Params("id")
+	var artis models.Artis
+
+	if err := config.DB.First(&artis, "id = ? ", artisId).Error; err != nil {
+		return helpers.Response(c, 404, "Artis Not Found", nil)
+	}
+
+	if err := config.DB.Where("id = ?", artisId).Delete(&artis).Error; err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+
+	return helpers.Response(c, 200, "Succes Delete Artis", nil)
+}
