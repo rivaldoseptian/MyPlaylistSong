@@ -13,9 +13,18 @@ type Song struct {
 }
 
 type SongResponse struct {
+	ID        uint      `json:"id"`
+	Name      string    `json:"name"`
+	Duration  string    `json:"duration"`
+	ArtisID   uint      `json:"artis_id"`
+	Artis     Artis     `gorm:"foreignKey:ArtisID" json:"artis"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+type SongRequest struct {
 	ID       uint   `json:"id"`
-	Name     string `json:"name"`
-	Duration string `json:"duration"`
-	ArtisID  uint   `json:"artis_id"`
-	Artis    Artis  `gorm:"foreignKey:ArtisID" json:"artis"`
+	Name     string `json:"name" validate:"required"`
+	Duration string `json:"duration" validate:"required"`
+	ArtisID  uint   `json:"artis_id" validate:"required"`
 }
