@@ -12,6 +12,7 @@ func ArtisRouter(r *fiber.App) {
 	adminRouter.Use(middleware.Auth)
 	adminRouter.Use(middleware.AdminAuth)
 	adminRouter.Post("/artis", controllers.CreateArtis)
+	adminRouter.Put("/artis/:id", controllers.EditArtis)
 	userRouter := r.Group("/user")
 	userRouter.Use(middleware.Auth)
 	userRouter.Get("/artis", controllers.GetArtis)

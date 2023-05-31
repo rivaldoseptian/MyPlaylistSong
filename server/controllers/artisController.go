@@ -49,3 +49,32 @@ func GetOneArtis(c *fiber.Ctx) error {
 
 	return helpers.Response(c, 200, "Success", artis)
 }
+
+func EditArtis(c *fiber.Ctx) error {
+	artisId := c.Params("id")
+	var artis models.Artis
+	updateArtis := new(models.UpdateArtis)
+
+	if err := c.BodyParser(updateArtis); err != nil {
+		return err
+	}
+
+	error := helpers.ValidateStruct(c, *updateArtis)
+	if error != nil {
+		return helpers.Response(c, 404, error, nil)
+	}
+
+	if err := config.DB.First(&artis, "id= ?", artisId).Error; err != nil {
+		return helpers.Response(c, 404, "Artis Not Found", nil)
+	}
+
+	artis = models.Artis{
+		Name: updateArtis.Name,
+	}
+
+	if err := config.DB.Where("id = ?", artisId).Updates(&artis).Error; err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+
+	return helpers.Response(c, 200, "Succes Edit Artis", nil)
+}

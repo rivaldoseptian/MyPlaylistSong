@@ -8,3 +8,7 @@ type Artis struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type UpdateArtis struct {
+	Name string `json:"name" validate:"required"`
+}
