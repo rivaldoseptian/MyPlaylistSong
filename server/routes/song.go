@@ -13,6 +13,7 @@ func SongRouter(r *fiber.App) {
 	adminRouter.Use(middleware.AdminAuth)
 	adminRouter.Post("/song", controllers.CreateSong)
 	adminRouter.Put("/song/:id", controllers.EditSong)
+	adminRouter.Delete("/song/:id", controllers.DeleteSong)
 
 	userRouter := r.Group("/user")
 	userRouter.Use(middleware.Auth)

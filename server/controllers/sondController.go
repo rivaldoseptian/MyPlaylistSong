@@ -88,3 +88,18 @@ func EditSong(c *fiber.Ctx) error {
 
 	return helpers.Response(c, 200, "Succes Edit Song", nil)
 }
+
+func DeleteSong(c *fiber.Ctx) error {
+	songId := c.Params("id")
+	var song models.Song
+
+	if err := config.DB.First(&song, "id= ?", songId).Error; err != nil {
+		return helpers.Response(c, 404, "Song Not Found", nil)
+	}
+
+	if err := config.DB.Where("id= ?", songId).Delete(&song).Error; err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+
+	return helpers.Response(c, 200, "Succes Delete Song", nil)
+}
