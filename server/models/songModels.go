@@ -16,7 +16,7 @@ type SongResponse struct {
 	ID        uint      `json:"id"`
 	Name      string    `json:"name"`
 	Duration  string    `json:"duration"`
-	ArtisID   uint      `json:"artis_id"`
+	ArtisID   uint      `json:"-"`
 	Artis     Artis     `gorm:"foreignKey:ArtisID" json:"artis"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

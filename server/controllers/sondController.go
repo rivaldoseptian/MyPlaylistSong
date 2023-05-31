@@ -32,3 +32,13 @@ func CreateSong(c *fiber.Ctx) error {
 
 	return helpers.Response(c, 201, "Succes Create", nil)
 }
+
+func GetSong(c *fiber.Ctx) error {
+	var song []models.Song
+	var songResponse []models.SongResponse
+
+	if err := config.DB.Preload("Artis").Find(&song).Find(&songResponse).Error; err != nil {
+		return helpers.Response(c, 500, err.Error(), nil)
+	}
+	return helpers.Response(c, 200, "Succes", songResponse)
+}
