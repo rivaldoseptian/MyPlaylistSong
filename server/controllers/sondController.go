@@ -42,3 +42,17 @@ func GetSong(c *fiber.Ctx) error {
 	}
 	return helpers.Response(c, 200, "Succes", songResponse)
 }
+
+func GetOneSong(c *fiber.Ctx) error {
+	var song models.Song
+	var songResponse models.SongResponse
+
+	songId := c.Params("id")
+
+	if err := config.DB.Preload("Artis").First(&song, "id= ?", songId).First(&songResponse).Error; err != nil {
+		return helpers.Response(c, 404, "Song Not Found", nil)
+	}
+
+	return helpers.Response(c, 200, "Succces", songResponse)
+
+}

@@ -16,5 +16,6 @@ func SongRouter(r *fiber.App) {
 	userRouter := r.Group("/user")
 	userRouter.Use(middleware.Auth)
 	userRouter.Get("/song", controllers.GetSong)
+	userRouter.Get("/song/:id", controllers.GetOneSong)
 
 }
