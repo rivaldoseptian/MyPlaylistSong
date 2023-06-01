@@ -19,3 +19,8 @@ type FavoriteResponse struct {
 	SongID uint `json:"-"`
 	Song   Song `gorm:"foreignKey:SongID" json:"song"`
 }
+
+type FavoriteRequest struct {
+	UserID uint `json:"user_id"`
+	SongID uint `json:"song_id"`
+}

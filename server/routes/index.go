@@ -6,4 +6,5 @@ func IndexRouter(r *fiber.App) {
 	AuthRouter(r)
 	ArtisRouter(r)
 	SongRouter(r)
+	FavoriteRouter(r)
 }
