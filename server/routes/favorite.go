@@ -10,6 +10,8 @@ import (
 func FavoriteRouter(r *fiber.App) {
 	userRouter := r.Group("/user")
 	userRouter.Use(middleware.Auth)
+	userRouter.Get("/favorite", controllers.GetFavoriteSong)
 	userRouter.Post("/favorite/:id", controllers.CreateFavorite)
+	userRouter.Delete("/favorite/:id", controllers.DeleteFavoriteSong)
 
 }
